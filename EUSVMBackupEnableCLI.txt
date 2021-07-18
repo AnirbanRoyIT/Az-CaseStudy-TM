@@ -1,0 +1,7 @@
+az backup vault create --resource-group EUS-RG --name branchbackupvault --location eastus
+
+az backup vault backup-properties set --name branchbackupvault  --resource-group EUS-RG --backup-storage-redundancy "GeoRedundant"
+
+az backup protection enable-for-vm --resource-group EUS-RG --vault-name branchbackupvault --vm server11 --policy-name DefaultPolicy
+
+

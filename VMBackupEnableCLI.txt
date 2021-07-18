@@ -1,0 +1,7 @@
+az backup vault create --resource-group SEA-RG --name corpbackupvault --location southeastasia
+
+az backup vault backup-properties set --name corpbackupvault  --resource-group SEA-RG --backup-storage-redundancy "GeoRedundant"
+
+az backup protection enable-for-vm --resource-group SEA-RG --vault-name corpbackupvault --vm server1 --policy-name DefaultPolicy
+az backup protection enable-for-vm --resource-group SEA-RG --vault-name corpbackupvault --vm server2 --policy-name DefaultPolicy
+
