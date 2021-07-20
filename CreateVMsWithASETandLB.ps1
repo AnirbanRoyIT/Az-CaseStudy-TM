@@ -20,7 +20,8 @@ $probe = New-AzLoadBalancerProbeConfig -Name "CorpLBHProbe" `
 
 $inboundNatRule1 = New-AzLoadBalancerInboundNatRuleConfig -Name "CorpLBinboundNatRule1" `
 -FrontendIPConfiguration $frontend -Protocol Tcp `
--FrontendPort 5580 -BackendPort 3389 -IdleTimeoutInMinutes 4
+-FrontendPort 5580 -BackendPort 3389 -IdleTimeoutInMinutes 4 `
+
 
 $inboundNatRule2 = New-AzLoadBalancerInboundNatRuleConfig -Name "CorpLBinboundNatRule2" `
 -FrontendIPConfiguration $frontend -Protocol Tcp `
@@ -75,16 +76,23 @@ $corpnsg=New-AzNetworkSecurityGroup -Name Corp_NSG -ResourceGroupName $RGName -L
 
 #Create Network Interface
 
-  for ($i=1; $i -le 2; $i++)
+
+  for ($i=0; $i -le 0; $i++)
+{
+for ($j=1; $j -le 2; $j++)
 {
    New-AzNetworkInterface `
      -ResourceGroupName $RGName `
-     -Name Server$i `
+     -Name Server$j `
      -Location $location `
      -NetworkSecurityGroup $corpnsg `
      -Subnet $vnet.Subnets[0] `
-     -LoadBalancerBackendAddressPool $lb.BackendAddressPools[0]
+     -LoadBalancerBackendAddressPool $lb.BackendAddressPools[0] `
+     -LoadBalancerInboundNatRule $lb.InboundNatRules[$i]
+$i++
 }
+}
+
 
 #Create Availability Set
 
